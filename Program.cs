@@ -45,3 +45,12 @@ Console.WriteLine();
 Console.WriteLine(anastasia.GetInfo());
 Console.WriteLine();
 Console.WriteLine(artem.GetInfo());
+
+Console.WriteLine();
+
+Hero margarita = new Hero("Маргарита", 80);
+margarita.TakeDamage(30);
+margarita.Heal(15);
+margarita.GainExperience(50);
+bool isAlive = margarita.IsAlive();
+Console.WriteLine(margarita.GetInfo());
