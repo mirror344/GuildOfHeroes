@@ -1,9 +1,25 @@
 public class Hero {
-    public string Name;
-    public int Health { get; private set; }
+    private string _name = "Безымянный герой";
+    public string Name {
+        get
+        {
+            return _name;
+        }
+        private set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                _name = "Безымянный герой";
+                return;
+            }
+            _name = value.Trim();
+        }   
+        
+    }
+    public int Health { get;  private set; }
     public int MaxHealth { get; private set; }
-    public int Level;
-    public int Experience;
+    public int Level { get; private set; }
+    public int Experience { get; private set; }
 
     
 
@@ -60,7 +76,12 @@ public class Hero {
     }
 
     public void GainExperience(int amount) {
-        if (amount <= 0) {
+        if (amount <= 0)
+        {
+            return;
+        }
+        if (amount > 2147483647 - Experience)
+        {
             return;
         }
         Experience += amount;
