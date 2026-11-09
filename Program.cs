@@ -46,3 +46,22 @@ if (guild.Heroes.Count > 0) {
     Console.WriteLine($"Самый здоровый: {strongest.Name}({strongest.Health})");
 }
 
+Console.WriteLine();
+
+if (guild.Heroes.Count > 0) {
+    int sumhp = 0;
+    foreach (Hero hero in guild.Heroes) {
+        sumhp += hero.Health;
+    }
+
+    int avghp = sumhp / guild.Heroes.Count;
+
+    int hero_avghp_count = 0;
+    foreach (Hero hero in guild.Heroes) {
+        if (hero.Health > avghp) {
+            hero_avghp_count++;
+        }
+    }
+
+    Console.WriteLine($"Количество со здоровьем выше среднего: {hero_avghp_count}");
+}
