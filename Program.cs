@@ -7,57 +7,60 @@ Hero alexander = new Hero("   Александр   ", 150);
 Hero sergey = new Hero("Сергей", 110);
 
 Guild guild = new Guild("Гильдия героев");
-guild.Heroes.Add(yaroslav);
-guild.Heroes.Add(anastasia);
-guild.Heroes.Add(artem);
-guild.Heroes.Add(alexander);
-guild.Heroes.Add(sergey);
+guild.AddHero(yaroslav);
+guild.AddHero(anastasia);
+guild.AddHero(artem);
+guild.AddHero(alexander);
+guild.AddHero(sergey);
 
+List<Hero> members = guild.GetMembers();
 Console.WriteLine($">>> {guild.Name}: перекличка <<<");
-Console.WriteLine($"Участников: {guild.Heroes.Count}");
+Console.WriteLine($"Участников: {guild.MemberCount}");
 
-if (guild.Heroes.Count > 0) {
-    Console.WriteLine($"Первый: {guild.Heroes[0].Name}");
-    Console.WriteLine($"Последний: {guild.Heroes[guild.Heroes.Count - 1].Name}");
+if (members.Count > 0) {
+    Console.WriteLine($"Первый: {members[0].Name}");
+    Console.WriteLine($"Последний: {members[members.Count - 1].Name}");
 }
 
 Console.WriteLine();
-foreach (Hero hero in guild.Heroes) {
+foreach (Hero hero in members) {
     Console.WriteLine(hero.GetInfo());
     Console.WriteLine();
 }
 
-int strongCount = 0;
-foreach (Hero hero in guild.Heroes) {
-    if (hero.Health >= 120) {
-        strongCount++;
-    }
+Hero? found = guild.FindHeroByName(" аРтЁм ");
+if (found != null) {
+    Console.WriteLine($"Найден по запросу « аРтЁм »: {found.Name}");
+} 
+else {
+    Console.WriteLine("По запросу « аРтЁм » никого нет.");
 }
-Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {strongCount}");
 
+Console.WriteLine($"Повтор Александра принят: {guild.AddHero(alexander)}");
 
-if (guild.Heroes.Count > 0) {
-    Hero strongest = guild.Heroes[0];
-    foreach (Hero hero in guild.Heroes) {
-        if (hero.Health > strongest.Health) {
-            strongest = hero;
-        }
-    }
-    Console.WriteLine($"Самый здоровый: {strongest.Name}({strongest.Health})");
+Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
+Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
+
+Console.WriteLine();
+Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {guild.CountHealthy(120)}");
+
+Hero? strongest = guild.FindStrongest();
+if (strongest != null) {
+    Console.WriteLine($"Самый здоровый: {strongest.Name} ({strongest.Health})");
 }
 
 Console.WriteLine();
 
-if (guild.Heroes.Count > 0) {
+if (members.Count > 0) {
     int sumhp = 0;
-    foreach (Hero hero in guild.Heroes) {
+    foreach (Hero hero in members) {
         sumhp += hero.Health;
     }
 
-    int avghp = sumhp / guild.Heroes.Count;
+    int avghp = sumhp / members.Count;
 
     int hero_avghp_count = 0;
-    foreach (Hero hero in guild.Heroes) {
+    foreach (Hero hero in members) {
         if (hero.Health > avghp) {
             hero_avghp_count++;
         }
@@ -65,3 +68,6 @@ if (guild.Heroes.Count > 0) {
 
     Console.WriteLine($"Количество со здоровьем выше среднего: {hero_avghp_count}");
 }
+
+
+
