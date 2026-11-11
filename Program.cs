@@ -69,5 +69,16 @@ if (members.Count > 0) {
     Console.WriteLine($"Количество со здоровьем выше среднего: {hero_avghp_count}");
 }
 
+Console.WriteLine();
+
+List<Hero> healthy = guild.SelectHealthy(120);
+
+foreach (Hero hero in healthy) {
+    Console.WriteLine(hero.Name);
+}
+
+healthy.Remove(alexander);
+Console.WriteLine(guild.MemberCount);
+
 
 

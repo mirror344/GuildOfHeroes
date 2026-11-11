@@ -76,4 +76,14 @@ public class Guild {
         return null;
     }
 
+
+    public List<Hero> SelectHealthy(int minimum) {
+        List<Hero> result = new List<Hero>();
+        foreach (Hero hero in _heroes) {
+            if (hero.Health >= minimum) {
+                result.Add(hero);
+            }
+        }
+        return result;
+    }
 }
