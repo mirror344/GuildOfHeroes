@@ -13,72 +13,23 @@ guild.AddHero(artem);
 guild.AddHero(alexander);
 guild.AddHero(sergey);
 
-List<Hero> members = guild.GetMembers();
-Console.WriteLine($">>> {guild.Name}: перекличка <<<");
-Console.WriteLine($"Участников: {guild.MemberCount}");
-
-if (members.Count > 0) {
-    Console.WriteLine($"Первый: {members[0].Name}");
-    Console.WriteLine($"Последний: {members[members.Count - 1].Name}");
-}
-
-Console.WriteLine();
-foreach (Hero hero in members) {
-    Console.WriteLine(hero.GetInfo());
-    Console.WriteLine();
-}
-
-Hero? found = guild.FindHeroByName(" аРтЁм ");
-if (found != null) {
-    Console.WriteLine($"Найден по запросу « аРтЁм »: {found.Name}");
-} 
-else {
-    Console.WriteLine("По запросу « аРтЁм » никого нет.");
-}
-
-Console.WriteLine($"Повтор Александра принят: {guild.AddHero(alexander)}");
-
-Console.WriteLine($"Удалён отсутствующий: {guild.RemoveHero("Борис")}");
-Console.WriteLine($"Участников после проверок: {guild.MemberCount}");
-
-Console.WriteLine();
-Console.WriteLine($"Могут нести тяжёлые ящики (здоровье от 120): {guild.CountHealthy(120)}");
-
-Hero? strongest = guild.FindStrongest();
-if (strongest != null) {
-    Console.WriteLine($"Самый здоровый: {strongest.Name} ({strongest.Health})");
-}
-
+Console.WriteLine($">>>{guild.Name}: участников {guild.MemberCount}<<<");
 Console.WriteLine();
 
-if (members.Count > 0) {
-    int sumhp = 0;
-    foreach (Hero hero in members) {
-        sumhp += hero.Health;
-    }
+QuestBoard board = new QuestBoard(guild);
+Quest floatQuest = new Quest(101, "Вернуть поплавок", 100, 30);
+Console.WriteLine($"Поручение добавлено: {board.AddQuest(floatQuest)}");
+Console.WriteLine($">>>№{floatQuest.Id}: {floatQuest.Title}<<<");
 
-    int avghp = sumhp / members.Count;
-
-    int hero_avghp_count = 0;
-    foreach (Hero hero in members) {
-        if (hero.Health > avghp) {
-            hero_avghp_count++;
-        }
-    }
-
-    Console.WriteLine($"Количество со здоровьем выше среднего: {hero_avghp_count}");
+Console.WriteLine($"Назначение Сергея: {board.TryAssign(101, " сЕрГеЙ")}");
+Hero? assigned = floatQuest.AssignedHero;
+if (assigned != null) {
+    Console.WriteLine($"Исполнитель: {assigned.Name}");
 }
-
-Console.WriteLine();
-
-List<Hero> healthy = guild.SelectHealthy(120);
-
-foreach (Hero hero in healthy) {
-    Console.WriteLine(hero.Name);
-}
-
-healthy.Remove(alexander);
-Console.WriteLine(guild.MemberCount);
+Console.WriteLine($"Опыт после назначения: {sergey.Experience}");
 
 
-
+Console.WriteLine($"Завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после завершения: {sergey.Experience}");
+Console.WriteLine($"Повторное завершение: {board.TryComplete(101)}");
+Console.WriteLine($"Опыт после повтора: {sergey.Experience}");
